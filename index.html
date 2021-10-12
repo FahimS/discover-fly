@@ -53,8 +53,11 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class <span id="firstClass-total">$150</span></label>
+
                     <input id="firstClass-count" type="text" class="form-control text-center" value="1">
+
                     <button id="firstClass-decrease" class="btn btn-default"><i class="fas fa-minus"></i></button>
+
                     <button id="firstClass-increase" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
 
@@ -100,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="submit-btn" class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -112,68 +115,212 @@
 
 
         <script>
+            //.....................................>>first Class section......................................................................................
+            // //Main-code - firstClass-increase-part
 
-            function handleFlightTicket(ticket, isIncrease) {
-                const ticketInput = document.getElementById(ticket + '-count');
-                const ticketCount = parseInt(ticketInput.value);
-                let ticketNewCount = ticketCount;
+            // document.getElementById("firstClass-increase").addEventListener("click", function () {
+            //     const firstClassInput = document.getElementById("firstClass-count");
+            //     const firstClassCount = parseInt(firstClassInput.value);
+            //     const firstClassNewCount = firstClassCount + 1;
+            //     firstClassInput.value = firstClassNewCount;
+            //     const firstClassTotal = firstClassNewCount * 150;
+            //     document.getElementById("firstClass-total").innerText = '$' + firstClassTotal;
+            // });
+
+            // //Main-code - firstClass-decrease-part
+            // document.getElementById("firstClass-decrease").addEventListener("click", function () {
+            //     const firstClassInput = document.getElementById("firstClass-count");
+            //     const firstClassCount = parseInt(firstClassInput.value);
+            //     const firstClassNewCount = firstClassCount - 1;
+            //     firstClassInput.value = firstClassNewCount;
+            //     const firstClassTotal = firstClassNewCount * 150;
+            //     document.getElementById("firstClass-total").innerText = '$' + firstClassTotal;
+            // });
+
+            //........using function for firstClass because 2part are contain same codes................
+
+            document.getElementById("firstClass-increase").addEventListener("click", function () {
+                firstClass(true);
+            });
+            document.getElementById("firstClass-decrease").addEventListener("click", function () {
+                firstClass(false);
+            });
+
+            function firstClass(isIncrease) {
+                const firstClassInput = document.getElementById("firstClass-count");
+                const firstClassCount = parseInt(firstClassInput.value);
+                // const firstClassNewCount = firstClassCount + 1;
+                let firstClassNewCount = firstClassCount
                 if (isIncrease == true) {
-                    ticketNewCount = ticketCount + 1;
+                    firstClassNewCount = firstClassCount + 1;
                 }
-                if (isIncrease == false && ticketCount > 0) {
-                    ticketNewCount = ticketCount - 1;
+                if (isIncrease == false && firstClassCount > 0) {
+                    firstClassNewCount = firstClassCount - 1;
                 }
-                ticketInput.value = ticketNewCount;
-                let ticketTotal = 0;
-                if (ticket == 'firstClass') {
-                    ticketTotal = ticketNewCount * 150;
-                }
-                if (ticket == 'economy') {
-                    ticketTotal = ticketNewCount * 100;
-                }
-                document.getElementById(ticket + '-total').innerText = '$' + ticketTotal;
+                firstClassInput.value = firstClassNewCount;
+                const firstClassTotal = firstClassNewCount * 150;
+                document.getElementById("firstClass-total").innerText = '$' + firstClassTotal;
                 calculateTotal();
             }
 
+            //.............................>>Economy section.............................................................................................................
+            // //increase-part
+            // document.getElementById("economy-increase").addEventListener("click", function () {
+            //     const economyInput = document.getElementById("economy-count");
+            //     const economyCount = parseInt(economyInput.value);
+            //     const economyNewCount = economyCount + 1;
+            //     economyInput.value = economyNewCount;
+            //     const economyTotal = economyNewCount * 100;
+            //     document.getElementById("economy-total").innerText = '$' + economyTotal;
+            // })
+            // //decrease-part
+            // document.getElementById("economy-decrease").addEventListener("click", function () {
+            //     const economyInput = document.getElementById("economy-count");
+            //     const economyCount = parseInt(economyInput.value);
+            //     const economyNewCount = economyCount - 1;
+            //     economyInput.value = economyNewCount;
+            //     const economyTotal = economyNewCount * 100
+            //     document.getElementById("economy-total").innerText = '$' + economyTotal;
+
+            // })
+
+            //using function.........................................
+            //increase-part
+            document.getElementById("economy-increase").addEventListener("click", function () {
+                economy(true);
+            });
+            //decrease-part
+            document.getElementById("economy-decrease").addEventListener("click", function () {
+                economy(false);
+            });
+
+            function economy(isIncrease) {
+                const economyInput = document.getElementById("economy-count");
+                const economyCount = parseInt(economyInput.value);
+                // const economyNewCount = economyCount + 1;
+                let economyNewCount = economyCount;
+                if (isIncrease == true) {
+                    economyNewCount = economyCount + 1;
+                }
+                if (isIncrease == false && economyCount > 0) {
+                    economyNewCount = economyCount - 1;
+                }
+                economyInput.value = economyNewCount;
+                const economyTotal = economyNewCount * 100;
+                document.getElementById("economy-total").innerText = '$' + economyTotal;
+                calculateTotal();
+            }
+
+
+
+            //..................Calculate Total.............................
+
             function calculateTotal() {
+                const firstClassInput = document.getElementById("firstClass-count");
+                const firstClassCount = parseInt(firstClassInput.value);
 
-                const firstClassCount = getInputValue('firstClass');
-                const economyCount = getInputValue('economy');
+                const economyInput = document.getElementById("economy-count");
+                const economyCount = parseInt(economyInput.value);
 
-                const totalPrice = firstClassCount * 150 + economyCount * 100;
-                document.getElementById('total-cost').innerText = '$' + totalPrice;
+                const totalMoney = firstClassCount * 150 + economyCount * 100;
+                document.getElementById("total-cost").innerText = '$' + totalMoney;
 
-                const tax = Math.round(totalPrice * 0.1);
+                const tax = Math.round(totalMoney * 0.1);
                 document.getElementById('tax-amount').innerText = '$' + tax;
 
-                const grandTotal = totalPrice + tax;
+                const grandTotal = totalMoney + tax;
                 document.getElementById('grand-total').innerText = '$' + grandTotal;
             }
 
-            function getInputValue(ticket) {
-                const ticketInput = document.getElementById(ticket + '-count');
-                const ticketCount = parseInt(ticketInput.value);
-                return ticketCount;
-
-            }
-
-
-
-            document.getElementById('firstClass-increase').addEventListener('click', function () {
-                handleFlightTicket('firstClass', true);
-            })
-            document.getElementById('firstClass-decrease').addEventListener('click', function () {
-                handleFlightTicket('firstClass', false);
+            document.getElementById("submit-btn").addEventListener("click", function () {
+                document.getElementById("firstClass-count").value = "1";
+                document.getElementById("economy-count").value = "1";
+                document.getElementById("total-cost").innerText = '$' + "250";
+                document.getElementById("tax-amount").innerText = '$' + "25";
+                document.getElementById("grand-total").innerText = '$' + "275";
+                alert("Congratulations! Your ticket is Booked!!!");
             })
 
 
 
-            document.getElementById('economy-increase').addEventListener('click', function () {
-                handleFlightTicket('economy', true);
-            })
-            document.getElementById('economy-decrease').addEventListener('click', function () {
-                handleFlightTicket('economy', false);
-            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //................Using function optimise full code.............................................
+
+
+            // function handleFlightTicket(ticket, isIncrease) {
+            //     const ticketInput = document.getElementById(ticket + '-count');
+            //     const ticketCount = parseInt(ticketInput.value);
+            //     let ticketNewCount = ticketCount;
+            //     if (isIncrease == true) {
+            //         ticketNewCount = ticketCount + 1;
+            //     }
+            //     if (isIncrease == false && ticketCount > 0) {
+            //         ticketNewCount = ticketCount - 1;
+            //     }
+            //     ticketInput.value = ticketNewCount;
+            //     let ticketTotal = 0;
+            //     if (ticket == 'firstClass') {
+            //         ticketTotal = ticketNewCount * 150;
+            //     }
+            //     if (ticket == 'economy') {
+            //         ticketTotal = ticketNewCount * 100;
+            //     }
+            //     document.getElementById(ticket + '-total').innerText = '$' + ticketTotal;
+            //     calculateTotal();
+            // }
+
+            // function calculateTotal() {
+
+            //     const firstClassCount = getInputValue('firstClass');
+            //     const economyCount = getInputValue('economy');
+
+            //     const totalPrice = firstClassCount * 150 + economyCount * 100;
+            //     document.getElementById('total-cost').innerText = '$' + totalPrice;
+
+            //     const tax = Math.round(totalPrice * 0.1);
+            //     document.getElementById('tax-amount').innerText = '$' + tax;
+
+            //     const grandTotal = totalPrice + tax;
+            //     document.getElementById('grand-total').innerText = '$' + grandTotal;
+            // }
+
+            // function getInputValue(ticket) {
+            //     const ticketInput = document.getElementById(ticket + '-count');
+            //     const ticketCount = parseInt(ticketInput.value);
+            //     return ticketCount;
+
+            // }
+
+
+
+            // document.getElementById('firstClass-increase').addEventListener('click', function () {
+            //     handleFlightTicket('firstClass', true);
+            // })
+            // document.getElementById('firstClass-decrease').addEventListener('click', function () {
+            //     handleFlightTicket('firstClass', false);
+            // })
+
+
+
+            // document.getElementById('economy-increase').addEventListener('click', function () {
+            //     handleFlightTicket('economy', true);
+            // })
+            // document.getElementById('economy-decrease').addEventListener('click', function () {
+            //     handleFlightTicket('economy', false);
+            // })
 
 
 
